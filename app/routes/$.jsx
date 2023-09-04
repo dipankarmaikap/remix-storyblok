@@ -11,11 +11,11 @@ export const loader = async ({ params }) => {
   // console.log({ slug })
   let sbParams = {
     version: 'published',
+    cv: Date.now(), //You can adjust this based on your liking for each env
   }
   let preview = process.env.STORYBLOK_PROD !== 'true'
   if (preview) {
     sbParams.version = 'draft'
-    sbParams.cv = Date.now()
   }
 
   let { data } = await getStoryblokApi().get(`cdn/stories/${slug}`, sbParams)
