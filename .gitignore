@@ -7,6 +7,8 @@ node_modules
 
 .vercel
 .output
+localhost-key.pem
+localhost.pem
 
 /api/index.js
 /api/index.js.map
