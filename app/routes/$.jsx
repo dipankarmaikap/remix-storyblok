@@ -16,7 +16,7 @@ export const loader = async ({ params, request }) => {
   }
 }
 export default function CatchAllRoute() {
-  let { data } = useLoaderData()
+  let data = useLoaderData()
   let story = useStoryblokState(data.story)
   return (
     <div>
