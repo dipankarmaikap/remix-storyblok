@@ -9,13 +9,16 @@ import {
   useLoaderData,
 } from '@remix-run/react'
 import { Analytics } from '@vercel/analytics/react'
-import { json, type LinksFunction } from '@vercel/remix'
+import type { LoaderArgs, LinksFunction } from '@vercel/remix'
+import { json } from '@vercel/remix'
 import { storyblokInit, apiPlugin } from '@storyblok/react'
 import Feature from '~/components/Feature'
 import Teaser from '~/components/Teaser'
 import Grid from '~/components/Grid'
 import Page from '~/components/Page'
 import getEnv from './utils/get-env'
+import { isStoryBlokPreview } from './utils/fetchStoryOnRoute'
+
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: 'stylesheet', href: cssBundleHref }] : []),
 ]
@@ -26,24 +29,19 @@ storyblokInit({
   components,
   bridge: getEnv().STORYBLOK_PROD !== 'true',
 })
-export async function loader() {
+export async function loader({ request }: LoaderArgs) {
+  const isPreview = isStoryBlokPreview(request)
+
   return json({
     ENV: {
       STORYBLOK_ACESS_KEY: process.env.STORYBLOK_ACESS_KEY,
-      STORYBLOK_PROD: process.env.STORYBLOK_PROD,
+      STORYBLOK_PROD: isPreview,
     },
   })
 }
 export default function App() {
   const data = useLoaderData<typeof loader>()
 
-  // if (true) {
-  //   storyblokInit({
-  //     accessToken: 'W1vLyxT5rQ15jBpANjnv0gtt',
-  //     use: [apiPlugin],
-  //     components,
-  //   })
-  // }
   return (
     <html lang="en">
       <head>
