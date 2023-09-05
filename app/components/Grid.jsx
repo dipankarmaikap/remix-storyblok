@@ -6,7 +6,11 @@ const Grid = ({ blok, preview }) => {
   return (
     <div className="grid" {...storyblokPreviewProps}>
       {blok.columns.map((nestedBlok) => (
-        <StoryblokComponent blok={nestedBlok} key={nestedBlok._uid} />
+        <StoryblokComponent
+          preview={preview}
+          blok={nestedBlok}
+          key={nestedBlok._uid}
+        />
       ))}
     </div>
   )

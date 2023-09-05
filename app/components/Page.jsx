@@ -5,7 +5,11 @@ const Page = ({ blok, preview }) => {
   return (
     <main {...storyblokPreviewProps}>
       {blok.body.map((nestedBlok) => (
-        <StoryblokComponent blok={nestedBlok} key={nestedBlok._uid} />
+        <StoryblokComponent
+          preview={preview}
+          blok={nestedBlok}
+          key={nestedBlok._uid}
+        />
       ))}
     </main>
   )
