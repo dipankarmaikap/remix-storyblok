@@ -15,13 +15,28 @@ export const loader = async ({ params, request }) => {
     })
   }
 }
-export default function CatchAllRoute() {
-  let data = useLoaderData()
-  let story = useStoryblokState(data.story)
-  return (
-    <div>
-      <h1>Hello Catch all Route</h1>
-      <StoryblokComponent blok={story.content} preview={data.isPreview} />
-    </div>
-  )
+// export default function CatchAllRoute() {
+//   let data = useLoaderData()
+//   let story = useStoryblokState(data.story)
+//   return (
+//     <div>
+//       <h1>Hello Catch all Route</h1>
+//       <StoryblokComponent blok={story.content} preview={data.isPreview} />
+//     </div>
+//   )
+// }
+export default function Page() {
+  const data = useLoaderData()
+  data.story = useStoryblokState(data?.story)
+  if (data?.story) {
+    return (
+      <StoryblokComponent
+        story={data.story}
+        blok={data.story.content}
+        preview={data.isPreview}
+      />
+    )
+  } else {
+    return <></>
+  }
 }
