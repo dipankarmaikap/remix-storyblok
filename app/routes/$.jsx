@@ -32,7 +32,7 @@ export default function Page() {
     <StoryblokComponent
       story={data.story}
       blok={data.story.content}
-      preview={data.isStoryBlokPreview}
+      preview={data.isPreview}
     />
   )
 }
