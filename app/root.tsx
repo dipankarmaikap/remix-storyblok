@@ -24,10 +24,10 @@ export const links: LinksFunction = () => [
 ]
 let components = { feature: Feature, grid: Grid, teaser: Teaser, page: Page }
 storyblokInit({
-  accessToken: getEnv().STORYBLOK_ACESS_KEY,
+  accessToken: 'QcZ2WYyS7DFU75R4jmf2Hwtt',
   use: [apiPlugin],
   components,
-  bridge: getEnv().STORYBLOK_PROD !== 'true',
+  bridge: getEnv().STORYBLOK_PROD !== 'true' ?? false,
 })
 export async function loader({ request }: LoaderArgs) {
   const isPreview = isStoryBlokPreview(request)
