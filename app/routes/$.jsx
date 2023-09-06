@@ -27,12 +27,16 @@ export const loader = async ({ params, request }) => {
 // }
 export default function Page() {
   const data = useLoaderData()
-  let story = useStoryblokState(data.story)
-  return (
-    <StoryblokComponent
-      story={story}
-      blok={story.content}
-      preview={data.isPreview}
-    />
-  )
+  data.story = useStoryblokState(data?.story)
+  if (data?.story) {
+    return (
+      <StoryblokComponent
+        story={data.story}
+        blok={data.story.content}
+        preview={data.isPreview}
+      />
+    )
+  } else {
+    return <></>
+  }
 }
