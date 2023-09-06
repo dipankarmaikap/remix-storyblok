@@ -26,7 +26,7 @@ export const loader = async ({ params, request }) => {
 //   )
 // }
 export default function Page() {
-  const data = useLoaderData()
+  let data = useLoaderData()
   data.story = useStoryblokState(data?.story)
   if (data?.story) {
     return (
