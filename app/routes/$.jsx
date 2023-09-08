@@ -8,24 +8,18 @@ export const loader = async ({ params, request }) => {
     const data = await fetchStoryOnRoute({ request, params })
     if (data.story) {
       return json(data)
+    } else {
+      throw new Response(`${new URL(request.url).pathname} not found`, {
+        status: 404,
+      })
     }
   } catch (error) {
-    throw new Response(`${new URL(request.url).pathname} not found`, {
-      status: 404,
+    throw new Response(`Failed to fetch ${new URL(request.url).pathname}`, {
+      status: 500,
     })
   }
 }
-// export default function CatchAllRoute() {
-//   let data = useLoaderData()
-//   let story = useStoryblokState(data.story)
-//   return (
-//     <div>
-//       <h1>Hello Catch all Route</h1>
-//       <StoryblokComponent blok={story.content} preview={data.isPreview} />
-//     </div>
-//   )
-// }
-export default function Page() {
+export default function CatchAllRoute() {
   const data = useLoaderData()
   let story = useStoryblokState(data.story)
   return (

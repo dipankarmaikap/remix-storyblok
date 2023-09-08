@@ -24,12 +24,13 @@ export const links: LinksFunction = () => [
 ]
 let components = { feature: Feature, grid: Grid, teaser: Teaser, page: Page }
 storyblokInit({
-  accessToken: 'QcZ2WYyS7DFU75R4jmf2Hwtt',
+  accessToken: getEnv().STORYBLOK_ACESS_KEY,
   use: [apiPlugin],
   components,
   bridge: getEnv().STORYBLOK_PROD !== 'true' ?? false,
 })
 export async function loader({ request }: LoaderArgs) {
+  //This will check if the website is in storyblok preview from the query parameter
   const isPreview = isStoryBlokPreview(request)
 
   return json({
