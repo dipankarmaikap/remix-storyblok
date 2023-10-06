@@ -1,8 +1,10 @@
-import { json } from "@remix-run/node";
+import { json } from "@vercel/remix";
 import { useLoaderData } from "@remix-run/react";
-import { StoryblokComponent, useStoryblokState } from "@storyblok/react";
-import React from "react";
-import { fetchStoryOnRoute } from "../utils/fetchStoryOnRoute";
+import { useStoryblokState } from "@storyblok/react";
+import { fetchStoryOnRoute } from "~/utils/fetchStoryOnRoute";
+
+export const config = { runtime: "edge" };
+
 export const loader = async ({ params, request }) => {
   try {
     const data = await fetchStoryOnRoute({ request, params });
@@ -21,6 +23,7 @@ export const loader = async ({ params, request }) => {
     );
   }
 };
+
 export default function CatchAllRoute() {
   const data = useLoaderData();
   let story = useStoryblokState(data.story);

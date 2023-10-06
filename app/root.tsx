@@ -10,9 +10,9 @@ import {
   useRouteError,
 } from "@remix-run/react";
 import type {
-  LoaderArgs,
+  LoaderFunctionArgs,
   LinksFunction,
-  V2_MetaFunction as MetaFunction,
+  MetaFunction,
 } from "@vercel/remix";
 import { json } from "@vercel/remix";
 import { storyblokInit, apiPlugin } from "@storyblok/react";
@@ -20,9 +20,9 @@ import Feature from "~/components/Feature";
 import Teaser from "~/components/Teaser";
 import Grid from "~/components/Grid";
 import Page from "~/components/Page";
-import getEnv from "./utils/get-env";
+import getEnv from "~/utils/get-env";
 import styles from "~/tailwind.css";
-import { isStoryBlokPreview } from "./utils/fetchStoryOnRoute";
+import { isStoryBlokPreview } from "~/utils/fetchStoryOnRoute";
 let components = { feature: Feature, grid: Grid, teaser: Teaser, page: Page };
 
 export const meta: MetaFunction = () => [{ title: "Remix Storyblok" }];
@@ -31,9 +31,9 @@ storyblokInit({
   accessToken: getEnv().STORYBLOK_ACESS_KEY,
   use: [apiPlugin],
   components,
-  bridge: getEnv().STORYBLOK_PREVIEW === "true" ?? false,
+  bridge: getEnv().STORYBLOK_PREVIEW?.toString() === "true" ?? false,
 });
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   //This will check if the website is in storyblok preview from the query parameter
   const isPreview = isStoryBlokPreview(request);
   return json({
