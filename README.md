@@ -16,13 +16,7 @@ To run your Remix app locally, make sure your project's local dependencies are i
 npm install
 ```
 
-Afterwards, start the Remix development server like so:
-
-```sh
-npm run dev
-```
-
-Create `.env` file and add the following two variables
+Afterwards, start the Remix development server like so: Create a `.env` file and add the following two variables
 ```sh
 STORYBLOK_ACESS_KEY=your Storyblok Preview Key
 STORYBLOK_PREVIEW=true // Set it false in production

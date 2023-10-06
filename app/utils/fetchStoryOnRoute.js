@@ -1,6 +1,6 @@
 import { getStoryblokApi } from "@storyblok/react";
 import getEnv from "./get-env";
-
+import { resolveRelations } from "~/utils/resolveRelations";
 export function isStoryBlokPreview(request) {
   const url = new URL(request.url);
   return (
@@ -14,6 +14,7 @@ export const fetchStoryOnRoute = async ({ request, params }) => {
   let slug = params["*"] ?? "home";
   const sbParams = {
     version: isPreview ? "draft" : "published",
+    resolve_relations: resolveRelations,
     cv: await getStoryblokCacheVersion(isPreview),
   };
 

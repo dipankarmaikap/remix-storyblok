@@ -10,30 +10,38 @@ import {
   useRouteError,
 } from "@remix-run/react";
 import type {
-  LoaderArgs,
   LinksFunction,
-  V2_MetaFunction as MetaFunction,
+  LoaderFunctionArgs,
+  MetaFunction,
 } from "@vercel/remix";
 import { json } from "@vercel/remix";
 import { storyblokInit, apiPlugin } from "@storyblok/react";
-import Feature from "~/components/Feature";
-import Teaser from "~/components/Teaser";
-import Grid from "~/components/Grid";
-import Page from "~/components/Page";
 import getEnv from "./utils/get-env";
 import styles from "~/tailwind.css";
 import { isStoryBlokPreview } from "./utils/fetchStoryOnRoute";
-let components = { feature: Feature, grid: Grid, teaser: Teaser, page: Page };
+import {
+  FallbackComponent,
+  storyblokComponents,
+} from "~/components/storyblokComponents";
+import Header from "~/components/Header";
+import Footer from "~/components/Footer";
 
-export const meta: MetaFunction = () => [{ title: "Remix Storyblok" }];
-export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
 storyblokInit({
   accessToken: getEnv().STORYBLOK_ACESS_KEY,
   use: [apiPlugin],
-  components,
-  bridge: getEnv().STORYBLOK_PREVIEW === "true" ?? false,
+  components: storyblokComponents,
+  apiOptions: {
+    region: "eu",
+  },
+  bridge: getEnv().STORYBLOK_PREVIEW?.toString() === "true" ?? false,
+  enableFallbackComponent: true,
+  customFallbackComponent: FallbackComponent,
 });
-export async function loader({ request }: LoaderArgs) {
+
+export const meta: MetaFunction = () => [{ title: "Remix Storyblok" }];
+export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
+
+export async function loader({ request }: LoaderFunctionArgs) {
   //This will check if the website is in storyblok preview from the query parameter
   const isPreview = isStoryBlokPreview(request);
   return json({
@@ -51,11 +59,23 @@ export default function App() {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500&display=swap"
+          rel="stylesheet"
+        />
         <Meta />
         <Links />
       </head>
       <body>
+        <Header />
         <Outlet />
+        <Footer />
         <ScrollRestoration />
         <Scripts />
         <LiveReload />

@@ -5,9 +5,12 @@ import { fontFamily } from "tailwindcss/defaultTheme";
 module.exports = {
   content: ["./app/**/*.{js,jsx,ts,tsx}"],
   theme: {
+    container: {
+      center: true,
+    },
     extend: {
       fontFamily: {
-        sans: ["sans-serif", ...fontFamily.sans],
+        sans: ["Plus Jakarta Sans", "sans-serif", ...fontFamily.sans],
       },
       colors: {
         gray: colors.neutral,

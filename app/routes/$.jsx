@@ -1,8 +1,8 @@
-import { json } from "@remix-run/node";
+import { json } from "@vercel/remix";
 import { useLoaderData } from "@remix-run/react";
 import { StoryblokComponent, useStoryblokState } from "@storyblok/react";
-import React from "react";
-import { fetchStoryOnRoute } from "../utils/fetchStoryOnRoute";
+import { resolveRelations } from "~/utils/resolveRelations";
+import { fetchStoryOnRoute } from "~/utils/fetchStoryOnRoute";
 export const loader = async ({ params, request }) => {
   try {
     const data = await fetchStoryOnRoute({ request, params });
@@ -21,16 +21,18 @@ export const loader = async ({ params, request }) => {
     );
   }
 };
+export const meta = () => [{ title: "Remix@Edge | New Remix App" }];
 export default function CatchAllRoute() {
   const data = useLoaderData();
-  let story = useStoryblokState(data.story);
-  console.log({ story });
-  return <h1>Hello Remix</h1>;
-  // return (
-  //   <StoryblokComponent
-  //     story={story}
-  //     blok={story.content}
-  //     preview={data.isPreview}
-  //   />
-  // );
+  let story = useStoryblokState(data.story, {
+    resolveRelations,
+  });
+  return (
+    <StoryblokComponent
+      story={story}
+      blok={story.content}
+      preview={data.isPreview}
+    />
+  );
 }
+export const config = { runtime: "edge" };
